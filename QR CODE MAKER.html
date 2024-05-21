@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cute QR Code Generator</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9d2; /* Cream yellow */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            text-align: center;
+            background: #ffffff; /* White */
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            font-size: 28px;
+            margin-bottom: 20px;
+            color: #ff6f61; /* Coral */
+        }
+
+        #url-input {
+            width: 80%;
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 2px solid #ff6f61; /* Coral */
+            border-radius: 25px;
+            font-size: 16px;
+            transition: border-color 0.3s ease-in-out;
+        }
+
+        #url-input:focus {
+            outline: none;
+            border-color: #ffcc5c; /* Yellow */
+        }
+
+        button {
+            padding: 12px 24px;
+            background-color: #ff6f61; /* Coral */
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #ffcc5c; /* Yellow */
+        }
+
+        #qrcode {
+            margin-top: 20px;
+            margin-bottom: 20px;
+            display: none; /* Initially hide */
+        }
+
+        .download-link {
+            margin-top: 10px;
+            display: none; /* Initially hide */
+            padding: 8px 16px;
+            background-color: #ff6f61; /* Coral */
+            color: white;
+            border-radius: 25px;
+            text-decoration: none;
+            font-size: 16px;
+            transition: background-color 0.3s ease-in-out;
+        }
+
+        .download-link:hover {
+            background-color: #ffcc5c; /* Yellow */
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Cute QR Code Generator</h1>
+        <input type="text" id="url-input" placeholder="Put the URL here">
+        <br><br>
+        <button onclick="generateQRCode()">Generate QR Code</button>
+        <div id="qrcode"></div>
+        <a href="#" id="download-link" class="download-link" download="qrcode.png">Download QR Code</a>
+    </div>
+    <script>
+        function generateQRCode() {
+            var url = document.getElementById("url-input").value;
+            if (!url) {
+                alert("Please enter a URL");
+                return;
+            }
+            var qrcodeContainer = document.getElementById("qrcode");
+            qrcodeContainer.innerHTML = "";
+            var qrcode = new QRCode(qrcodeContainer, {
+                text: url,
+                width: 256,
+                height: 256,
+                colorDark: "#000000",
+                colorLight: "#f8f9d2", // Light cream yellow
+                correctLevel: QRCode.CorrectLevel.H
+            });
+            
+            // Show QR code
+            qrcodeContainer.style.display = "block";
+
+            // Show download link
+            var downloadLink = document.getElementById("download-link");
+            downloadLink.href = qrcodeContainer.querySelector("canvas").toDataURL("image/png");
+            downloadLink.style.display = "inline-block";
+        }
+    </script>
+</body>
+</html>
